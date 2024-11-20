@@ -30,7 +30,7 @@ int main() {
     printf("Final sum: %d\n", sum);
 
     if (sum % 10 == 0) {
-        printf("Valid card number\n");
+        printf("visa\n");
     } else {
         printf("Invalid card number\n");
     }
