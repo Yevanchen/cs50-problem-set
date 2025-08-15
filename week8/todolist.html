@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>todolist</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1 style="text-align: center; margin-bottom: 20px; font-size: 24px; font-weight: bold;">Todo List</h1>
+            <div class="new-todo-item">
+                <button class="add-button">Add</button>
+            </div>
+            <div class="todo-list">
+
+                </div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+
+    <script>
+         // 点击Add按钮：添加 + 渲染
+        document.querySelector('.add-button').addEventListener('click', function() {
+            addTodo();
+            renderTodoList();
+        });
+        // 点击checkbox处理完成状态 应该1.使用 moveToCompleted 将当前的task移动到已经完成
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('todo-checkbox')) {
+                const todoItem = e.target.closest('.todo-item-not-completed');
+                moveToCompleted(todoItem.querySelector('.todo-input').value);
+            }
+        });
+
+        // 点击输入框进入编辑模式
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('todo-input') && e.target.closest('.todo-item-not-completed')) {
+                e.target.removeAttribute('readonly');
+                e.target.focus();
+                e.target.select();
+            }
+        });
+
+        // 输入框失去焦点时保存     
+        document.addEventListener('blur', function(e) {
+            if (e.target.classList.contains('todo-input')) {
+                const todoItem = e.target.closest('.todo-item-not-completed');
+                if (todoItem) {
+                    const oldValue = e.target.defaultValue;
+                    const newValue = e.target.value;
+                    const index = todoList.indexOf(oldValue);
+                    if (index > -1) {
+                        todoList[index] = newValue;
+                    }
+                    e.target.setAttribute('readonly', 'readonly');
+                    renderTodoList();
+                }
+            }
+        }, true);
+
+    </script>
+</html>

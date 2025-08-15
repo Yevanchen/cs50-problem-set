@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<!-- Demonstrates forms and different search implementations -->
+
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="演示HTML表单的使用，包括Google搜索、百度搜索等不同搜索引擎的表单实现">
+        <title>HTML表单搜索演示</title>
+        
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                margin: 0;
+                padding: 30px;
+                background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+                color: #333;
+                line-height: 1.6;
+            }
+            .container {
+                max-width: 900px;
+                margin: 0 auto;
+            }
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                background: rgba(255, 255, 255, 0.9);
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+                color: #2d3436;
+            }
+            .search-section {
+                background: white;
+                margin: 20px 0;
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+                border-left: 5px solid #007bff;
+            }
+            .search-form {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 20px 0;
+                flex-wrap: wrap;
+            }
+            .search-input {
+                flex: 1;
+                min-width: 300px;
+                padding: 12px 16px;
+                border: 2px solid #ddd;
+                border-radius: 25px;
+                font-size: 16px;
+                outline: none;
+                transition: all 0.3s ease;
+            }
+            .search-input:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+            }
+            .search-btn {
+                padding: 12px 24px;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 25px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 500;
+            }
+            .search-btn:hover {
+                background: #0056b3;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+            }
+            .google-style {
+                border-color: #4285f4;
+            }
+            .google-style:focus {
+                border-color: #4285f4;
+                box-shadow: 0 0 10px rgba(66, 133, 244, 0.3);
+            }
+            .google-btn {
+                background: #4285f4;
+                border: 1px solid #4285f4;
+            }
+            .google-btn:hover {
+                background: #3367d6;
+                border-color: #3367d6;
+            }
+            .baidu-style {
+                border-color: #3385ff;
+            }
+            .baidu-style:focus {
+                border-color: #3385ff;
+                box-shadow: 0 0 10px rgba(51, 133, 255, 0.3);
+            }
+            .baidu-btn {
+                background: #3385ff;
+                border: 1px solid #3385ff;
+            }
+            .baidu-btn:hover {
+                background: #2d73dd;
+                border-color: #2d73dd;
+            }
+            .code-block {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 8px;
+                border: 1px solid #e9ecef;
+                font-family: 'Courier New', monospace;
+                font-size: 14px;
+                margin: 15px 0;
+                overflow-x: auto;
+                color: #495057;
+            }
+            .feature-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+                margin: 30px 0;
+            }
+            .feature-card {
+                background: white;
+                padding: 25px;
+                border-radius: 12px;
+                box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+                border-top: 4px solid #28a745;
+            }
+            .highlight {
+                background: #fff3cd;
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-weight: bold;
+                color: #856404;
+            }
+            .demo-form {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 15px 0;
+                border: 2px dashed #6c757d;
+            }
+            .form-label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: bold;
+                color: #495057;
+            }
+            .form-note {
+                font-size: 0.9em;
+                color: #6c757d;
+                margin-top: 10px;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🔍 HTML表单搜索演示</h1>
+                <p>学习如何创建各种搜索表单，连接到不同的搜索引擎</p>
+            </div>
+
+            <!-- Google搜索表单 -->
+            <div class="search-section">
+                <h2>🌐 Google搜索表单</h2>
+                <p>这个表单将把搜索请求发送到Google搜索引擎</p>
+                
+                <form action="https://www.google.com/search" method="get" class="search-form">
+                    <input name="q" type="search" placeholder="搜索任何内容..." class="search-input google-style" required>
+                    <input type="submit" value="Google搜索" class="search-btn google-btn">
+                </form>
+                
+                <div class="code-block">&lt;form action="https://www.google.com/search" method="get"&gt;
+    &lt;input name="q" type="search"&gt;
+    &lt;input type="submit" value="Google Search"&gt;
+&lt;/form&gt;</div>
+                
+                <div class="form-note">
+                    💡 <span class="highlight">name="q"</span> 是Google搜索的查询参数名称
+                </div>
+            </div>
+
+            <!-- 百度搜索表单 -->
+            <div class="search-section">
+                <h2>🔍 百度搜索表单</h2>
+                <p>这个表单将把搜索请求发送到百度搜索引擎</p>
+                
+                <form action="https://www.baidu.com/s" method="get" class="search-form">
+                    <input name="wd" type="search" placeholder="百度一下，你就知道" class="search-input baidu-style" required>
+                    <input type="submit" value="百度搜索" class="search-btn baidu-btn">
+                </form>
+                
+                <div class="code-block">&lt;form action="https://www.baidu.com/s" method="get"&gt;
+    &lt;input name="wd" type="search"&gt;
+    &lt;input type="submit" value="百度搜索"&gt;
+&lt;/form&gt;</div>
+                
+                <div class="form-note">
+                    💡 <span class="highlight">name="wd"</span> 是百度搜索的查询参数名称
+                </div>
+            </div>
+
+            <!-- 本地搜索演示 -->
+            <div class="search-section">
+                <h2>🏠 本地搜索演示</h2>
+                <p>这个表单演示如何处理本地搜索（不会实际提交）</p>
+                
+                <form onsubmit="handleLocalSearch(event)" class="search-form">
+                    <input name="query" type="search" placeholder="本地搜索演示..." class="search-input" required>
+                    <input type="submit" value="本地搜索" class="search-btn">
+                </form>
+                
+                <div class="code-block">&lt;form onsubmit="handleLocalSearch(event)"&gt;
+    &lt;input name="query" type="search"&gt;
+    &lt;input type="submit" value="本地搜索"&gt;
+&lt;/form&gt;</div>
+                
+                <div id="search-result" style="margin-top: 15px; padding: 15px; background: #e7f3ff; border-radius: 8px; display: none;">
+                    <strong>搜索结果将显示在这里</strong>
+                </div>
+            </div>
+
+            <!-- 表单详解 -->
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>📝 Form元素属性</h3>
+                    <ul>
+                        <li><span class="highlight">action:</span> 表单提交的目标URL</li>
+                        <li><span class="highlight">method:</span> HTTP请求方法(GET/POST)</li>
+                        <li><span class="highlight">target:</span> 打开结果的窗口(_blank/_self)</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎯 Input元素属性</h3>
+                    <ul>
+                        <li><span class="highlight">name:</span> 提交时的参数名</li>
+                        <li><span class="highlight">type:</span> 输入类型(search/text/email等)</li>
+                        <li><span class="highlight">placeholder:</span> 占位符文本</li>
+                        <li><span class="highlight">required:</span> 必填字段标记</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🌍 HTTP GET vs POST</h3>
+                    <ul>
+                        <li><span class="highlight">GET:</span> 数据在URL中可见，适合搜索</li>
+                        <li><span class="highlight">POST:</span> 数据在请求体中，适合敏感信息</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🔧 搜索引擎参数</h3>
+                    <ul>
+                        <li><span class="highlight">Google:</span> q (query)</li>
+                        <li><span class="highlight">百度:</span> wd (word)</li>
+                        <li><span class="highlight">Bing:</span> q (query)</li>
+                        <li><span class="highlight">DuckDuckGo:</span> q (query)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 高级表单示例 -->
+            <div class="search-section">
+                <h2>🚀 高级表单示例</h2>
+                <p>包含多个输入字段和选项的复杂表单</p>
+                
+                <div class="demo-form">
+                    <form onsubmit="handleAdvancedSearch(event)">
+                        <div style="margin-bottom: 15px;">
+                            <label class="form-label">搜索内容:</label>
+                            <input name="keywords" type="search" placeholder="输入关键词..." class="search-input" style="width: 100%; margin: 0;" required>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label class="form-label">搜索类型:</label>
+                            <select name="type" style="padding: 8px; border-radius: 5px; border: 1px solid #ddd; width: 200px;">
+                                <option value="web">网页搜索</option>
+                                <option value="image">图片搜索</option>
+                                <option value="news">新闻搜索</option>
+                                <option value="video">视频搜索</option>
+                            </select>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label class="form-label">语言:</label>
+                            <input type="radio" name="lang" value="zh" checked> 中文
+                            <input type="radio" name="lang" value="en" style="margin-left: 15px;"> English
+                            <input type="radio" name="lang" value="all" style="margin-left: 15px;"> 所有语言
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <input type="checkbox" name="safe" value="on"> 安全搜索
+                            <input type="checkbox" name="recent" value="on" style="margin-left: 15px;"> 最近更新
+                        </div>
+                        
+                        <input type="submit" value="高级搜索" class="search-btn" style="width: 100%;">
+                    </form>
+                </div>
+                
+                <div class="code-block">&lt;form onsubmit="handleAdvancedSearch(event)"&gt;
+    &lt;input name="keywords" type="search" required&gt;
+    &lt;select name="type"&gt;
+        &lt;option value="web"&gt;网页搜索&lt;/option&gt;
+        &lt;option value="image"&gt;图片搜索&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;input type="radio" name="lang" value="zh"&gt; 中文
+    &lt;input type="checkbox" name="safe"&gt; 安全搜索
+    &lt;input type="submit" value="搜索"&gt;
+&lt;/form&gt;</div>
+            </div>
+
+            <!-- 实用提示 -->
+            <div class="search-section">
+                <h2>💡 实用提示</h2>
+                <div class="feature-grid">
+                    <div style="background: #d4edda; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                        <h4>🎯 表单验证</h4>
+                        <p>使用HTML5内置验证：required, pattern, min, max等属性</p>
+                    </div>
+                    <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                        <h4>🔒 安全考虑</h4>
+                        <p>敏感数据使用POST方法，避免在URL中暴露</p>
+                    </div>
+                    <div style="background: #f8d7da; padding: 15px; border-radius: 8px; border-left: 4px solid #dc3545;">
+                        <h4>📱 移动端优化</h4>
+                        <p>使用适当的input类型，如search, email, tel等</p>
+                    </div>
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <h4>♿ 无障碍访问</h4>
+                        <p>添加label标签，使用语义化的HTML结构</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function handleLocalSearch(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                const query = formData.get('query');
+                const resultDiv = document.getElementById('search-result');
+                
+                resultDiv.innerHTML = `
+                    <strong>🔍 搜索结果：</strong><br>
+                    你搜索了："<em>${query}</em>"<br>
+                    <small>这是一个演示，实际应用中会连接到后端服务器处理搜索逻辑。</small>
+                `;
+                resultDiv.style.display = 'block';
+                
+                // 在控制台显示更多信息
+                console.log('=== 本地搜索演示 ===');
+                console.log('搜索关键词:', query);
+                console.log('表单数据:', Object.fromEntries(formData));
+            }
+            
+            function handleAdvancedSearch(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData);
+                
+                alert(`高级搜索提交:\n${JSON.stringify(data, null, 2)}`);
+                
+                console.log('=== 高级搜索演示 ===');
+                console.log('表单数据:', data);
+            }
+            
+            // 页面加载完成后的信息
+            window.addEventListener('load', function() {
+                console.log('=== HTML表单演示页面 ===');
+                console.log('页面包含多种表单示例：');
+                console.log('1. Google搜索表单');
+                console.log('2. 百度搜索表单'); 
+                console.log('3. 本地搜索演示');
+                console.log('4. 高级表单示例');
+                console.log('打开开发者工具的Network标签，观察表单提交的HTTP请求！');
+            });
+        </script>
+    </body>
+</html>

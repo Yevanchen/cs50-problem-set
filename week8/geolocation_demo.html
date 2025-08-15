@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地理定位详细演示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .info-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-left: 4px solid #2196F3;
+            margin: 15px 0;
+        }
+        .result {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .error {
+            background: #ffebee;
+            color: #d32f2f;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        .code-block {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 JavaScript地理定位详细演示</h1>
+        
+        <div class="info-box">
+            <h3>🔍 地理定位数据来源：</h3>
+            <ul>
+                <li><strong>GPS信号</strong> - 移动设备的GPS芯片</li>
+                <li><strong>Wi-Fi网络</strong> - 基于已知Wi-Fi热点位置</li>
+                <li><strong>手机基站</strong> - 移动网络基站三角定位</li>
+                <li><strong>IP地址</strong> - 基于网络IP的大概位置</li>
+            </ul>
+        </div>
+
+        <h2>📱 获取位置信息</h2>
+        <button onclick="getLocation()">📍 获取我的位置</button>
+        <button onclick="watchLocation()">👀 持续监控位置</button>
+        <button onclick="stopWatching()">⏹️ 停止监控</button>
+        
+        <div id="result"></div>
+        
+        <h2>🔧 代码实现</h2>
+        <div class="code-block">
+// 基础用法
+navigator.geolocation.getCurrentPosition(
+    function(position) {
+        // 成功获取位置
+        console.log("纬度: " + position.coords.latitude);
+        console.log("经度: " + position.coords.longitude);
+    },
+    function(error) {
+        // 获取失败
+        console.log("错误: " + error.message);
+    },
+    {
+        // 选项配置
+        enableHighAccuracy: true,  // 高精度
+        timeout: 10000,           // 超时时间
+        maximumAge: 60000         // 缓存时间
+    }
+);
+        </div>
+
+        <h2>📊 位置对象属性详解</h2>
+        <div class="info-box">
+            <ul>
+                <li><strong>latitude</strong> - 纬度 (-90 到 90)</li>
+                <li><strong>longitude</strong> - 经度 (-180 到 180)</li>
+                <li><strong>accuracy</strong> - 精度（米）</li>
+                <li><strong>altitude</strong> - 海拔高度（米，可能为null）</li>
+                <li><strong>altitudeAccuracy</strong> - 海拔精度（米）</li>
+                <li><strong>heading</strong> - 方向（度，可能为null）</li>
+                <li><strong>speed</strong> - 速度（米/秒，可能为null）</li>
+                <li><strong>timestamp</strong> - 获取时间戳</li>
+            </ul>
+        </div>
+
+        <h2>⚠️ 隐私和权限</h2>
+        <div class="info-box">
+            <p><strong>浏览器安全机制：</strong></p>
+            <ul>
+                <li>🔒 需要用户明确授权</li>
+                <li>🌐 HTTPS网站优先级更高</li>
+                <li>📵 用户可以随时撤销权限</li>
+                <li>🚫 可能被浏览器/系统阻止</li>
+            </ul>
+        </div>
+
+        <h2>🌐 实际应用场景</h2>
+        <div class="info-box">
+            <ul>
+                <li>📍 <strong>地图导航</strong> - Google Maps、百度地图</li>
+                <li>🛒 <strong>本地服务</strong> - 附近商店、餐厅推荐</li>
+                <li>🌤️ <strong>天气服务</strong> - 显示当地天气</li>
+                <li>📱 <strong>社交应用</strong> - 位置签到、附近的人</li>
+                <li>🚗 <strong>打车软件</strong> - 确定上车地点</li>
+                <li>📈 <strong>数据分析</strong> - 用户行为分析</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let watchId = null;
+        let resultDiv = document.getElementById('result');
+
+        function getLocation() {
+            resultDiv.innerHTML = '<p>🔄 正在获取位置信息...</p>';
+            
+            if (!navigator.geolocation) {
+                resultDiv.innerHTML = '<div class="error">❌ 您的浏览器不支持地理定位</div>';
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    displayPosition(position);
+                },
+                function(error) {
+                    displayError(error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 60000
+                }
+            );
+        }
+
+        function watchLocation() {
+            if (!navigator.geolocation) {
+                resultDiv.innerHTML = '<div class="error">❌ 您的浏览器不支持地理定位</div>';
+                return;
+            }
+
+            watchId = navigator.geolocation.watchPosition(
+                function(position) {
+                    displayPosition(position, true);
+                },
+                function(error) {
+                    displayError(error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 1000
+                }
+            );
+
+            resultDiv.innerHTML = '<p>👀 开始持续监控位置...</p>';
+        }
+
+        function stopWatching() {
+            if (watchId !== null) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                resultDiv.innerHTML += '<p>⏹️ 已停止位置监控</p>';
+            }
+        }
+
+        function displayPosition(position, isWatching = false) {
+            const coords = position.coords;
+            const timestamp = new Date(position.timestamp);
+            
+            const html = `
+                <div class="result">
+                    <h3>${isWatching ? '🎯 位置更新' : '📍 位置信息'}</h3>
+                    <p><strong>纬度:</strong> ${coords.latitude}°</p>
+                    <p><strong>经度:</strong> ${coords.longitude}°</p>
+                    <p><strong>精度:</strong> ${coords.accuracy} 米</p>
+                    ${coords.altitude ? `<p><strong>海拔:</strong> ${coords.altitude} 米</p>` : ''}
+                    ${coords.heading ? `<p><strong>方向:</strong> ${coords.heading}°</p>` : ''}
+                    ${coords.speed ? `<p><strong>速度:</strong> ${coords.speed} 米/秒</p>` : ''}
+                    <p><strong>获取时间:</strong> ${timestamp.toLocaleString()}</p>
+                    <p><strong>Google Maps链接:</strong> 
+                        <a href="https://www.google.com/maps?q=${coords.latitude},${coords.longitude}" target="_blank">
+                            查看地图位置
+                        </a>
+                    </p>
+                </div>
+            `;
+            
+            if (isWatching) {
+                resultDiv.innerHTML += html;
+            } else {
+                resultDiv.innerHTML = html;
+            }
+        }
+
+        function displayError(error) {
+            let errorMsg = '';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMsg = "❌ 用户拒绝了地理定位请求";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    errorMsg = "❌ 位置信息不可用";
+                    break;
+                case error.TIMEOUT:
+                    errorMsg = "❌ 获取位置信息超时";
+                    break;
+                default:
+                    errorMsg = "❌ 发生未知错误";
+                    break;
+            }
+            
+            resultDiv.innerHTML = `
+                <div class="error">
+                    <h3>获取位置失败</h3>
+                    <p>${errorMsg}</p>
+                    <p><strong>错误详情:</strong> ${error.message}</p>
+                    <p><strong>错误代码:</strong> ${error.code}</p>
+                </div>
+            `;
+        }
+
+        // 页面加载时显示支持状态
+        window.addEventListener('load', function() {
+            if (navigator.geolocation) {
+                console.log('✅ 浏览器支持地理定位API');
+            } else {
+                console.log('❌ 浏览器不支持地理定位API');
+                resultDiv.innerHTML = '<div class="error">❌ 您的浏览器不支持地理定位功能</div>';
+            }
+        });
+    </script>
+</body>
+</html>

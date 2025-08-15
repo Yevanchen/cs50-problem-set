@@ -1,0 +1,114 @@
+.new-todo-item {
+    margin-bottom: 20px;
+}
+
+.add-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.todo-list {
+    margin-top: 20px;
+}
+
+.todo-item {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.todo-item-not-completed {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.todo-item-not-completed input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    background: white;
+    cursor: pointer;
+}
+
+.todo-item-not-completed .todo-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #f9f9f9;
+}
+
+.todo-item-completed {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 15px;
+}
+
+.todo-item-completed input[type="checkbox"] {
+    appearance: none;           /* 移除默认样式 */
+    width: 20px;
+    height: 20px;
+    background: #2196F3;
+    border: 2px solid #2196F3;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.todo-item-completed input[type="checkbox"]:checked::before {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
+
+.todo-item-completed .todo-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #f0f0f0;
+    text-decoration: line-through;
+    color: #888;
+}
+
+.completed-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.completed-title {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
