@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Login</h1>
+    
+    <!-- 🔥 添加这部分：显示 flash 消息 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <!-- 只显示最后一条消息 -->
+        {% set latest_message = messages[-1] %}
+        <div class="alert alert-{{ latest_message[0] }}">{{ latest_message[1] }}</div>
+    {% endif %}
+    {% endwith %}
+    
+    <form action="/login" method="post">
+        <input autocomplete="off" autofocus name="username" placeholder="Username" type="text">
+        <input name="password" placeholder="Password" type="password">
+        <button type="submit">Login</button>
+    </form>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <p>Don't have an account? <a href="/register">Register</a></p>
+{% endblock %}

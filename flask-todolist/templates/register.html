@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Register</h1>
+    <form action="/register" method="post">
+        <input autocomplete="off" autofocus name="username" placeholder="Username" type="text">
+        <input name="password" placeholder="Password" type="password">
+        <button type="submit">Register</button>
+    </form>
+    {% if error %}  
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <p>Already have an account? <a href="/login">Login</a></p>
+{% endblock %}

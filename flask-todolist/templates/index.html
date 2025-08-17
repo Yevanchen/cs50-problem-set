@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}Todo List{% endblock %}
+
+{% block body %}
+    <!-- 用户信息和登出 -->
+    <div class="user-header">
+        <div class="welcome">
+            <span>Welcome, {{ session.username }}!</span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    <!-- 原有的 todolist 结构 -->
+    <h1 style="text-align: center; margin-bottom: 20px; font-size: 24px; font-weight: bold;">Todo List</h1>
+    
+    <div class="new-todo-item">
+        <button class="add-button">Add</button>
+
+        
+    </div>
+    
+    <div class="todo-list">
+        <!-- 动态内容将由 JavaScript 生成 -->
+    </div>
+
+    <!-- 内联 JavaScript（暂时保持原样，后面再改造） -->
+    <script>
+        // 点击Add按钮：添加 + 渲染
+        document.querySelector('.add-button').addEventListener('click', function() {
+            addTodo();
+        });
+        
+        document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('todo-checkbox')) {
+            const todoId = e.target.getAttribute('data-id');  // ✅ 传递ID
+            moveToCompleted(todoId);
+        }
+        });
+
+        // 点击输入框进入编辑模式
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('todo-input') && e.target.closest('.todo-item-not-completed')) {
+                e.target.removeAttribute('readonly');
+                e.target.focus();
+                e.target.select();
+            }
+        });
+
+        // 输入框失去焦点时保存     
+        document.addEventListener('blur', function(e) {
+            if (e.target.classList.contains('todo-input')) {
+                const todoItem = e.target.closest('.todo-item-not-completed');
+                if (todoItem) {
+                    const todoId = e.target.getAttribute('data-id');     // ✅ 获取ID
+                    const newValue = e.target.value;                     // 新内容
+                    const oldValue = e.target.defaultValue;              // 原内容
+                    
+                    // 只有内容真的改变了才调用API
+                    if (newValue !== oldValue) {
+                        updateTodoContent(todoId, newValue);             // ✅ 调用API
+                    }
+                    
+                    e.target.setAttribute('readonly', 'readonly');
+                }
+            }
+        }, true);
+    </script>
+{% endblock %}
