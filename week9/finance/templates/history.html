@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card-header">
+            <h4>Transaction History</h4>
+        </div>
+        <div class="card-body">
+            {% if transactions %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Date/Time</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Symbol</th>
+                                <th scope="col">Shares</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                                <tr>
+                                    <td>{{ transaction.timestamp }}</td>
+                                    <td>
+                                        <span class="badge {% if transaction.action == 'buy' %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ transaction.action | upper }}
+                                        </span>
+                                    </td>
+                                    <td><strong>{{ transaction.symbol }}</strong></td>
+                                    <td>{{ transaction.shares }}</td>
+                                    <td>{{ transaction.price | usd }}</td>
+                                    <td class="{% if transaction.action == 'buy' %}text-danger{% else %}text-success{% endif %}">
+                                        {{ transaction.total_amount | usd }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted">No transactions found.</p>
+                    <p class="text-muted">Start trading to see your history here!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

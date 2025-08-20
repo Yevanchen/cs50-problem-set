@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-header">
+            <h4>Get Stock Quote</h4>
+        </div>
+        <div class="card-body">
+            <form action="/quote" method="post">
+                <div class="mb-3">
+                    <label for="symbol" class="form-label">Stock Symbol</label>
+                    <input autocomplete="off" autofocus class="form-control" id="symbol" name="symbol" placeholder="e.g., AAPL" type="text" required>
+                    <div class="form-text">Enter the stock's ticker symbol (e.g., AAPL for Apple)</div>
+                </div>
+                <button class="btn btn-primary btn-lg" type="submit">Look Up</button>
+            </form>
+            
+            <hr class="my-4">
+            
+            <div class="mb-3">
+                <h6>Popular Stocks to Try:</h6>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="setSymbol('AAPL')">
+                            AAPL - Apple
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="setSymbol('MSFT')">
+                            MSFT - Microsoft
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="setSymbol('GOOGL')">
+                            GOOGL - Google
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="setSymbol('TSLA')">
+                            TSLA - Tesla
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="setSymbol('AMZN')">
+                            AMZN - Amazon
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-secondary btn-sm w-100" onclick="setSymbol('META')">
+                            META - Meta
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info">
+                <small>
+                    <strong>Tip:</strong> Stock symbols are usually 1-5 letters that represent a company. 
+                    You can find them on financial websites or stock apps.
+                </small>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function setSymbol(symbol) {
+            document.getElementById('symbol').value = symbol;
+            document.getElementById('symbol').focus();
+        }
+    </script>
+{% endblock %}

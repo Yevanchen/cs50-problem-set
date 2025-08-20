@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <h1 class="mb-4">Portfolio</h1>
+    
+    {% if portfolio %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Name</th>
+                        <th>Shares</th>
+                        <th>Price</th>
+                        <th>Total Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in portfolio %}
+                        <tr>
+                            <td>{{ stock.symbol }}</td>
+                            <td>{{ stock.name }}</td>
+                            <td>{{ stock.shares }}</td>
+                            <td>{{ stock.price | usd }}</td>
+                            <td>{{ stock.total_value | usd }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-muted">No stocks owned yet.</p>
+    {% endif %}
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Cash Balance</h5>
+                    <p class="card-text display-6 text-success">{{ user_cash | usd }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Portfolio Value</h5>
+                    <p class="card-text display-6 text-primary">{{ grand_total | usd }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="/buy" class="btn btn-success me-2">Buy Stocks</a>
+        <a href="/sell" class="btn btn-warning me-2">Sell Stocks</a>
+        <a href="/quote" class="btn btn-info me-2">Get Quote</a>
+        <a href="/history" class="btn btn-secondary">View History</a>
+    </div>
+{% endblock %}
